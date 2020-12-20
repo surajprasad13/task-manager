@@ -10,10 +10,21 @@ const port = process.env.PORT || 3000;
 
 const upload = multer({
   dest: "images",
+  limits:{
+    fileSize:100000
+  },
+  fileFilter(req,res,cb){
+    if(!file.originalname.match(/\.(doc|docsx)$/)){
+      return cb(new Error('Please upload a word document'))
+    }
+    cb(undefined,true)
+  }
 });
 
 app.post("/upload", upload.single("upload"), (req, res) => {
   res.send();
+},(error,req,res,next)=>{
+  res.status(400).send({error:error.message})
 });
 
 app.use(express.json());
@@ -24,4 +35,4 @@ app.listen(port, () => {
   console.log("Server is running on " + port);
 });
 
-// /Users/mac/mongodb/bin/mongod --dbpath=/Users/mac/mongodb-data
+// /Users/macbook/mongodb/bin/mongod --dbpath=/Users/macbook/mongodb-data

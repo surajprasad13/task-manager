@@ -43,6 +43,10 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+    loc: {
+      type: { type: String, enum: ["Point"] },
+      coordinates: [Number],
+    },
     height: {
       type: Number,
       default: 100,
